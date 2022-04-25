@@ -35,6 +35,22 @@ async function run() {
       const service = await serviceList.findOne(query);
       res.send(service);
     });
+
+    // add service
+    app.post("/service", async (req, res) => {
+      const service = req.body;
+      const result = await serviceList.insertOne(service);
+      res.send(result);
+      console.log("success", result.insertedId);
+    });
+
+    // Deleting data from database
+    app.delete("/service/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await serviceList.deleteOne(query);
+      res.send(result);
+    });
   } finally {
     // client.close();
   }
